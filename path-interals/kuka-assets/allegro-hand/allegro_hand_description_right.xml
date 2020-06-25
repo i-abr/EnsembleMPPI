@@ -1,0 +1,149 @@
+<mujoco model="allegro_hand_right">
+    <compiler angle="radian" meshdir="meshes/" />
+    <option integrator='RK4' timestep='0.002' />
+    <size njmax="500" nconmax="100" />
+    <default >
+        <joint limited="true" margin="0.01" armature="0.001" damping="0.05" frictionloss="0.001" />
+    </default>
+    <worldbody>
+
+        <light directional='false' diffuse='.7 .7 .7' specular='0.03 0.03 0.03' pos='-1 -1 4' dir='1 1 -4' />
+        <geom name='ground' size="1.5 1.5 0.25" pos="0 0 -1" type="plane" contype="1" conaffinity="0"/>
+        <camera name="fixed" pos="0 -0.7 0.7" quat="0.92388 0.382683 0 0" />
+
+
+        <body name="base_link" pos="0 0 0" euler='0 -1.57 3.14'>
+            <inertial pos="-0.0093 0 -0.0475" mass="0.437988" diaginertia="0.000795459 0.000390161 0.000526813" />
+            <geom size="0.0204 0.0565 0.0475" pos="-0.0093 0 -0.0475" type="box" rgba="0.2 0.2 0.2 1" conaffinity='0' contype='0'/>
+            <body name="index-0" pos="0 0.0435 -0.001542" quat="0.999048 -0.0436194 0 0">
+                <inertial pos="0 0 0.0082" mass="0.0088396" diaginertia="7.55204e-07 4.8111e-07 8.40064e-07" />
+                <joint name="index-joint-0" pos="0 0 0" axis="0 0 1" limited="true" range="-0.47 0.47" />
+                <geom size="0.0098 0.01375 0.0082" pos="0 0 0.0082" type="box" rgba="0.2 0.2 0.2 1" />
+                <body name="index-1" pos="0 0 0.0164">
+                    <inertial pos="0 0 0.027" mass="0.029106" diaginertia="8.90704e-06 8.00454e-06 2.76606e-06" />
+                    <joint name="index-joint-1" pos="0 0 0" axis="0 1 0" limited="true" range="-0.196 1.61" />
+                    <geom size="0.0098 0.01375 0.027" pos="0 0 0.027" type="box" rgba="0.2 0.2 0.2 1" />
+                    <body name="index-2" pos="0 0 0.054">
+                        <inertial pos="0 0 0.0192" mass="0.0206976" diaginertia="3.8477e-06 3.20592e-06 1.96698e-06" />
+                        <joint name="index-joint-2" pos="0 0 0" axis="0 1 0" limited="true" range="-0.174 1.709" />
+                        <geom size="0.0098 0.01375 0.0192" pos="0 0 0.0192" type="box" rgba="0.2 0.2 0.2 1" />
+                        <body name="index-3" pos="0 0 0.0384">
+                            <inertial pos="0 0 0.01335" mass="0.0143913" diaginertia="1.7619e-06 1.31566e-06 1.36767e-06" />
+                            <joint name="index-joint-3" pos="0 0 0" axis="0 1 0" limited="true" range="-0.227 1.618" />
+                            <geom size="0.0098 0.01375 0.01335" pos="0 0 0.01335" type="box" rgba="0.2 0.2 0.2 1" />
+                            <body name="index-tip" pos="0 0 0.0267">
+                                <inertial pos="0 0 0" mass="0.00723823" diaginertia="4.16922e-07 4.16922e-07 4.16922e-07" />
+                                <geom size="0.012" rgba="0.9 0.9 0.9 1" />
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+
+            <body name="middle-0" pos="0 0 0.0007">
+                <inertial pos="0 0 0.0082" mass="0.0088396" diaginertia="7.55204e-07 4.8111e-07 8.40064e-07" />
+                <joint name="middle-joint-0" pos="0 0 0" axis="0 0 1" limited="true" range="-0.47 0.47" />
+                <geom size="0.0098 0.01375 0.0082" pos="0 0 0.0082" type="box" rgba="0.2 0.2 0.2 1" />
+                <body name="middle-1" pos="0 0 0.0164">
+                    <inertial pos="0 0 0.027" mass="0.029106" diaginertia="8.90704e-06 8.00454e-06 2.76606e-06" />
+                    <joint name="middle-joint-1" pos="0 0 0" axis="0 1 0" limited="true" range="-0.196 1.61" />
+                    <geom size="0.0098 0.01375 0.027" pos="0 0 0.027" type="box" rgba="0.2 0.2 0.2 1" />
+                    <body name="middle-2" pos="0 0 0.054">
+                        <inertial pos="0 0 0.0192" mass="0.0206976" diaginertia="3.8477e-06 3.20592e-06 1.96698e-06" />
+                        <joint name="middle-joint-2" pos="0 0 0" axis="0 1 0" limited="true" range="-0.174 1.709" />
+                        <geom size="0.0098 0.01375 0.0192" pos="0 0 0.0192" type="box" rgba="0.2 0.2 0.2 1" />
+                        <body name="middle-3" pos="0 0 0.0384">
+                            <inertial pos="0 0 0.01335" mass="0.0143913" diaginertia="1.7619e-06 1.31566e-06 1.36767e-06" />
+                            <joint name="middle-joint-3" pos="0 0 0" axis="0 1 0" limited="true" range="-0.227 1.618" />
+                            <geom size="0.0098 0.01375 0.01335" pos="0 0 0.01335" type="box" rgba="0.2 0.2 0.2 1" />
+                            <body name="middle-tip" pos="0 0 0.0267">
+                                <inertial pos="0 0 0" mass="0.00723823" diaginertia="4.16922e-07 4.16922e-07 4.16922e-07" />
+                                <geom size="0.012" rgba="0.9 0.9 0.9 1" />
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+
+            <body name="pinky-0" pos="0 -0.0435 -0.001542" quat="0.999048 0.0436194 0 0">
+                <inertial pos="0 0 0.0082" mass="0.0088396" diaginertia="7.55204e-07 4.8111e-07 8.40064e-07" />
+                <joint name="pinky-joint-0" pos="0 0 0" axis="0 0 1" limited="true" range="-0.47 0.47" />
+                <geom size="0.0098 0.01375 0.0082" pos="0 0 0.0082" type="box" rgba="0.2 0.2 0.2 1" />
+                <body name="pinky-1" pos="0 0 0.0164">
+                    <inertial pos="0 0 0.027" mass="0.029106" diaginertia="8.90704e-06 8.00454e-06 2.76606e-06" />
+                    <joint name="pinky-joint-1" pos="0 0 0" axis="0 1 0" limited="true" range="-0.196 1.61" />
+                    <geom size="0.0098 0.01375 0.027" pos="0 0 0.027" type="box" rgba="0.2 0.2 0.2 1" />
+                    <body name="pinky-2" pos="0 0 0.054">
+                        <inertial pos="0 0 0.0192" mass="0.0206976" diaginertia="3.8477e-06 3.20592e-06 1.96698e-06" />
+                        <joint name="pinky-joint-2" pos="0 0 0" axis="0 1 0" limited="true" range="-0.174 1.709" />
+                        <geom size="0.0098 0.01375 0.0192" pos="0 0 0.0192" type="box" rgba="0.2 0.2 0.2 1" />
+                        <body name="pinky-3" pos="0 0 0.0384">
+                            <inertial pos="0 0 0.01335" mass="0.0143913" diaginertia="1.7619e-06 1.31566e-06 1.36767e-06" />
+                            <joint name="pinky-joint-3" pos="0 0 0" axis="0 1 0" limited="true" range="-0.227 1.618" />
+                            <geom size="0.0098 0.01375 0.01335" pos="0 0 0.01335" type="box" rgba="0.2 0.2 0.2 1" />
+                            <body name="pinky-tip" pos="0 0 0.0267">
+                                <inertial pos="0 0 0" mass="0.00723823" diaginertia="4.16922e-07 4.16922e-07 4.16922e-07" />
+                                <geom size="0.012" rgba="0.9 0.9 0.9 1" />
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <body name="thumb-0" pos="-0.0182 0.019333 -0.045987" quat="0.477714 -0.521334 -0.521334 -0.477714">
+                <inertial pos="-0.0179 0.009 0.0145" mass="0.0553826" diaginertia="1.48898e-05 1.54697e-05 1.12502e-05" />
+                <joint name="thumb-joint-0" pos="0 0 0" axis="-1 0 0" limited="true" range="0.263 1.396" />
+                <geom size="0.0179 0.017 0.02275" pos="-0.0179 0.009 0.0145" type="box" rgba="0.2 0.2 0.2 1" />
+                <body name="thumb-1" pos="-0.027 0.005 0.0399">
+                    <inertial pos="0 0 0.00885" mass="0.0095403" diaginertia="8.50311e-07 5.5449e-07 9.06654e-07" />
+                    <joint name="thumb-joint-1" pos="0 0 0" axis="0 0 1" limited="true" range="-0.105 1.163" />
+                    <geom size="0.0098 0.01375 0.00885" pos="0 0 0.00885" type="box" rgba="0.2 0.2 0.2 1" />
+                    <body name="thumb-2" pos="0 0 0.0177">
+                        <inertial pos="0 0 0.0257" mass="0.0277046" diaginertia="7.8455e-06 6.98645e-06 2.63288e-06" />
+                        <joint name="thumb-joint-2" pos="0 0 0" axis="0 1 0" limited="true" range="-0.189 1.644" />
+                        <geom size="0.0098 0.01375 0.0257" pos="0 0 0.0257" type="box" rgba="0.2 0.2 0.2 1" />
+                        <body name="thumb-3" pos="0 0 0.0514">
+                            <inertial pos="0 0 0.02115" mass="0.0227997" diaginertia="4.83646e-06 4.1295e-06 2.16675e-06" />
+                            <joint name="thumb-joint-3" pos="0 0 0" axis="0 1 0" limited="true" range="-0.162 1.719" />
+                            <geom size="0.0098 0.01375 0.02115" pos="0 0 0.02115" type="box" rgba="0.2 0.2 0.2 1" />
+                            <body name="thumb-tip" pos="0 0 0.0423">
+                                <inertial pos="0 0 0" mass="0.00723823" diaginertia="4.16922e-07 4.16922e-07 4.16922e-07" />
+                                <geom size="0.012" rgba="0.9 0.9 0.9 1" />
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+
+
+    <actuator>
+        <general name='index0' joint='index-joint-0' ctrlrange='-1 1'/>
+        <general name='index1' joint='index-joint-1' ctrlrange='-1 1'/>
+        <general name='index2' joint='index-joint-2' ctrlrange='-1 1'/>
+        <general name='index3' joint='index-joint-3' ctrlrange='-1 1'/>
+
+        <general name='middle0' joint='middle-joint-0' ctrlrange='-1 1'/>
+        <general name='middle1' joint='middle-joint-1' ctrlrange='-1 1'/>
+        <general name='middle2' joint='middle-joint-2' ctrlrange='-1 1'/>
+        <general name='middle3' joint='middle-joint-3' ctrlrange='-1 1'/>
+
+
+        <general name='pinky0' joint='pinky-joint-0' ctrlrange='-1 1'/>
+        <general name='pinky1' joint='pinky-joint-1' ctrlrange='-1 1'/>
+        <general name='pinky2' joint='pinky-joint-2' ctrlrange='-1 1'/>
+        <general name='pinky3' joint='pinky-joint-3' ctrlrange='-1 1'/>
+
+        <general name='thumb0' joint='thumb-joint-0' ctrlrange='-1 1'/>
+        <general name='thumb1' joint='thumb-joint-1' ctrlrange='-1 1'/>
+        <general name='thumb2' joint='thumb-joint-2' ctrlrange='-1 1'/>
+        <general name='thumb3' joint='thumb-joint-3' ctrlrange='-1 1'/>
+
+
+    </actuator>
+
+
+
+
+</mujoco>

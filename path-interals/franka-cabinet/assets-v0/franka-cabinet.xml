@@ -1,0 +1,90 @@
+<mujoco model='franka-cabinet'>
+
+    <option gravity='0 0 0'/>
+    <option>
+        <flag sensornoise='enable'/>
+    </option>
+    <default>
+         <geom margin='0.001' solref='0.002 1' solimp='0.8 0.8 0.1'/>
+    </default>
+
+    <compiler inertiafromgeom='true' angle='radian' meshdir="meshes/"/>
+
+
+    <include file='franka-assets.xml'/>
+    <include file='sektion-cabinet-assets.xml' />
+
+    <worldbody>
+        <!-- Floor -->
+        <geom name='floor' pos='0 0 0' size='2 2 .01' type='plane' material="MatPlane" contype='4'/>
+        <!-- Lighting -->
+        <light directional='true' diffuse='.7 .7 .7' specular='0.03 0.03 0.03' pos='-1 -1.0 4.0' dir='1 1.0 -4'/>
+
+        <!-- Robot -->
+        <body name="robot" pos="0.1 0.5 0">
+            <include file="franka.xml"/>
+        </body>
+        <!-- <include file="franka.xml"/> -->
+
+        <include file='sektion-cabinet.xml' />
+
+        <!-- cabinet -->
+        <!-- <body name='cabinet' pos='0.9 0.2 0.3' euler='0 0 3.1415'>
+            <include file='sektion-cabinet.xml' />
+        </body> -->
+
+
+    </worldbody>
+
+
+
+    <sensor>
+        <!-- <jointpos name='joint1' joint='joint1' />
+        <jointpos name='joint2' joint='joint2' />
+        <jointpos name='joint3' joint='joint3' />
+        <jointpos name='joint4' joint='joint4' />
+        <jointpos name='joint5' joint='joint5' />
+        <jointpos name='joint6' joint='joint6' />
+        <jointpos name='joint7' joint='joint7' />
+        <jointpos name='finger1' joint='finger1'/>
+
+        <jointvel name='vjoint1' joint='joint1'/>
+        <jointvel name='vjoint2' joint='joint2'/>
+        <jointvel name='vjoint3' joint='joint3'/>
+        <jointvel name='vjoint4' joint='joint4'/>
+        <jointvel name='vjoint5' joint='joint5'/>
+        <jointvel name='vjoint6' joint='joint6'/>
+        <jointvel name='vjoint7' joint='joint7'/>
+        <jointvel name='vfinger1' joint='finger1'/>
+
+        <framequat name='gripper_rot' objtype='site' objname='grasp'/>
+        <framepos name='gripper_pos' objtype='site' objname='grasp'/>
+        <framepos name='handle_pos' objtype='site' objname='Handle'/> -->
+
+
+        <jointpos name='joint1' joint='joint1' noise='0.001'/>
+        <jointpos name='joint2' joint='joint2' noise='0.001'/>
+        <jointpos name='joint3' joint='joint3' noise='0.001'/>
+        <jointpos name='joint4' joint='joint4' noise='0.001'/>
+        <jointpos name='joint5' joint='joint5' noise='0.001'/>
+        <jointpos name='joint6' joint='joint6' noise='0.001'/>
+        <jointpos name='joint7' joint='joint7' noise='0.001'/>
+        <jointpos name='finger1' joint='finger1' noise='0.001'/>
+
+        <jointvel name='vjoint1' joint='joint1' noise='0.001'/>
+        <jointvel name='vjoint2' joint='joint2' noise='0.001'/>
+        <jointvel name='vjoint3' joint='joint3' noise='0.001'/>
+        <jointvel name='vjoint4' joint='joint4' noise='0.001'/>
+        <jointvel name='vjoint5' joint='joint5' noise='0.001'/>
+        <jointvel name='vjoint6' joint='joint6' noise='0.001'/>
+        <jointvel name='vjoint7' joint='joint7' noise='0.001'/>
+        <jointvel name='vfinger1' joint='finger1' noise='0.001'/>
+
+        <framequat name='gripper_rot' objtype='site' objname='grasp' noise='0.001'/>
+
+        <framepos name='gripper_pos' objtype='site' objname='grasp' noise='0.001'/>
+        <framepos name='handle_pos' objtype='site' objname='Handle' noise='0.001'/>
+
+    </sensor>
+
+</mujoco>

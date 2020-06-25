@@ -1,0 +1,194 @@
+<!-- ======================================================
+    Model       :: ADROIT Pen
+
+    Mujoco      :: Advanced physics simulation engine
+        Source      : www.roboti.us
+        Version     : 1.50
+        Released    : 17Jan'17
+
+    Author      :: Vikash Kumar
+        Contacts    : vikash@cs.washington.edu
+        Last edits  : 17Jan'17
+
+    Designed for :: Demo Augmented Policy Gradient (DAPG)
+
+    Copyright   :: Vikash Kumar
+        Licensed under Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+====================================================== -->
+
+<mujoco model='ADROIT-pen(v1.5)'>
+
+    <compiler angle='radian' texturedir="./texture"></compiler>
+    <asset>
+        <texture name="texture:object" file="block.png" gridsize="3 4" gridlayout=".U..LFRB.D.."></texture>
+        <texture name="texture:hidden" file="block_hidden.png" gridsize="3 4" gridlayout=".U..LFRB.D.."></texture>
+
+        <material name="material:object" texture="texture:object" specular="1" shininess="0.3" reflectance="0"></material>
+        <material name="material:hidden" texture="texture:hidden" specular="1" shininess="0.3" reflectance="0"></material>
+        <material name="material:target" texture="texture:object" specular="1" shininess="0.3" reflectance="0" rgba="1 1 1 0.5"></material>
+    </asset>
+    <!-- ======= WORLD ======= -->
+    <worldbody>
+        <light directional='false' diffuse='.7 .7 .7' specular='0.03 0.03 0.03' pos='-1 -1.0 4.0' dir='1 1.0 -4'/>
+        <geom name='ground' size="1.5 1.5 0.25" pos="0 0 -1" type="plane" contype="1" conaffinity="0" material="groundplane" />
+        <camera name="fixed" pos="0 -0.7 0.7" quat="0.92388 0.382683 0 0" />
+
+        <!-- ======= TABLE ======= -->
+        <body name="table">
+            <!-- <geom size="0.5 0.5 0.025" type="plane" material="table2d" /> --> <!-- Plane has better contacts -->
+            <geom size="0.45 0.45 0.025" pos="0 0 -0.025" type="box" material="tablecube" />
+            <geom size="0.04 0.5" pos="0.4 0.4 -0.501" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" />
+            <geom size="0.04 0.5" pos="-0.4 0.4 -0.501" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" />
+            <geom size="0.04 0.5" pos="0.4 -0.4 -0.501" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" />
+            <geom size="0.04 0.5" pos="-0.4 -0.4 -0.501" quat="0 1 0 0" type="cylinder" contype="0" conaffinity="0" />
+        </body>
+
+        <!-- ======= MOCAP ======= -->
+        <body name="vive_tracker" pos="0 -0.35 0.25" mocap="true">
+            <inertial pos="0 0 0" mass="0.064" diaginertia="1.70667e-05 1.70667e-05 1.70667e-05" />
+            <geom size="0.03 0.01" type="cylinder" contype="0" conaffinity="0" group="3" rgba="0.3 0.3 0.3 0.3" />
+        </body>
+
+        <!-- ======= HAND ======= -->
+        <body name="forearm" pos="0 -0.7 0.2" euler="-1.57 0 0">
+            <inertial pos="0.001 -0.002 0.29" quat="0.982037 -0.0160006 0 -0.188007" mass="4" diaginertia="0.01 0.01 0.0075" />
+            <geom name="V_forearm" class="D_Vizual" pos="0 -.01 .181" euler="0 0 -1.57"  mesh="forearm_simple" />
+            <geom name="C_forearm1" class="DC_Hand" size="0.05 0.033" pos="0 0 0.29" type="capsule" rgba="0.4 0.5 0.6 0.1" />
+            <!-- ======= Adroit ======= -->
+            <include file="DAPG_Adroit.xml"/>
+        </body>
+
+        <!-- ======= block ======= -->
+
+        <body name="object" pos="0.05 -0.2 0.25">
+            <geom name="object" type="box" size="0.025 0.025 0.025" material="material:object" condim="4" density="567"></geom>
+            <geom name="object_hidden" type="box" size="0.024 0.024 0.024" material="material:hidden" condim="4" contype="0" conaffinity="0" mass="0"></geom>
+            <site name="object:center" pos="0 0 0" rgba="1 0 0 0" size="0.01 0.01 0.01"></site>
+            <!-- <joint name="object:joint" type="free" damping="0.01" range='0 0'></joint> -->
+            <joint name="OBJTx" pos="0 0 0" axis="1 0 0" type="slide" limited="false" damping="0" />
+            <joint name="OBJTy" pos="0 0 0" axis="0 1 0" type="slide" limited="false" damping="0" />
+            <joint name="OBJTz" pos="0 0 0" axis="0 0 1" type="slide" limited="false" damping="0" />
+            <joint name="OBJRx" pos="0 0 0" axis="1 0 0" limited="false" damping="0" />
+            <joint name="OBJRy" pos="0 0 0" axis="0 1 0" limited="false" damping="0" />
+            <joint name="OBJRz" pos="0 0 0" axis="0 0 1" limited="false" damping="0" />
+        </body>
+        <!-- <body name="target" pos="0.2 -0.2 0.25">
+            <geom name="target" type="box" size="0.025 0.025 0.025" material="material:target" condim="4" group="2" contype="0" conaffinity="0"></geom>
+            <site name="target:center" pos="0 0 0" rgba="1 0 0 0" size="0.01 0.01 0.01"></site>
+            <joint name="target:joint" type="free" damping="0.01"></joint>
+        </body> -->
+
+
+        <!-- <site name="eps_ball" type="sphere" pos="0.0 -0.2 0.25" size="0.075" rgba="0 0 0 0" />
+        <body name="Object" pos="0.05 -0.2 0.25" user="1001 0 2003 27 0 0 0.06 0 0" euler="0 1.57 0">
+            <joint name="OBJTx" pos="0 0 0" axis="1 0 0" type="slide" limited="false" damping="0" />
+            <joint name="OBJTy" pos="0 0 0" axis="0 1 0" type="slide" limited="false" damping="0" />
+            <joint name="OBJTz" pos="0 0 0" axis="0 0 1" type="slide" limited="false" damping="0" />
+            <joint name="OBJRx" pos="0 0 0" axis="1 0 0" limited="false" damping="0" />
+            <joint name="OBJRy" pos="0 0 0" axis="0 1 0" limited="false" damping="0" />
+            <joint name="OBJRz" pos="0 0 0" axis="0 0 1" limited="false" damping="0" />
+            <geom name="pen" type="cylinder" size="0.015 0.065" condim="4" rgba=".6 .6 .6 .6" />
+
+            <geom name="top" type="cylinder" size="0.017 0.020" condim="4" pos="0 0 -.0455" rgba="0 .5 1 1" contype="0" conaffinity="0"/>
+            <geom name="bot" type="cylinder" size="0.013 0.002" pos="0 0 0.067" rgba="0 .5 1 1" contype="0" conaffinity="0"/>
+            <geom name="cli" type="box" size="0.004 0.006 0.03" pos="-.015 0 -.0255" rgba="0 .5 1 1" contype="0" conaffinity="0"/>
+
+            <site name="object_top" type="sphere" size="0.005" rgba="0.8 0.2 0.2 0" pos="0 0 0.065" />
+            <site name="object_bottom" type="sphere" size="0.005" rgba="0.2 0.8 0.2 0" pos="0 0 -0.065" />
+        </body>
+
+        <body name="target" pos="0.2 -0.2 0.25" >
+            <site name="target_top" type="sphere" size="0.005" rgba="0.8 0.2 0.2 0" pos="0 0 0.065" />
+            <site name="target_bottom" type="sphere" size="0.005" rgba="0.2 0.8 0.2 0" pos="0 0 -0.065" />
+
+            <geom name="target" type="cylinder" size="0.015 0.065" condim="4" rgba=".6 .6 .6 .3" />
+            <geom name="t_top" type="cylinder" size="0.017 0.020" condim="4" pos="0 0 -.0455" rgba="0 1 .5 1" contype="0" conaffinity="0"/>
+            <geom name="t_bot" type="cylinder" size="0.013 0.002" pos="0 0 0.067" rgba="0 1 .5 1" contype="0" conaffinity="0"/>
+            <geom name="t_cli" type="box" size="0.004 0.006 0.03" pos="-.015 0 -.0255" rgba="0 1 .5 1" contype="0" conaffinity="0"/>
+        </body> -->
+
+    </worldbody>
+
+    <include file='DAPG_assets.xml'/>
+
+    <sensor>
+
+        <framequat name='obj-quat' objtype='body' objname='Object'/>
+
+        <!-- <actuatorfrc actuator="A_WRJ1" name="Saf_A_WRJ1" />
+        <actuatorfrc actuator="A_WRJ0" name="Saf_A_WRJ0" />
+        <actuatorfrc actuator="A_FFJ3" name="Saf_A_FFJ3" />
+        <actuatorfrc actuator="A_FFJ2" name="Saf_A_FFJ2" />
+        <actuatorfrc actuator="A_FFJ1" name="Saf_A_FFJ1" />
+        <actuatorfrc actuator="A_MFJ3" name="Saf_A_MFJ3" />
+        <actuatorfrc actuator="A_MFJ2" name="Saf_A_MFJ2" />
+        <actuatorfrc actuator="A_MFJ1" name="Saf_A_MFJ1" />
+        <actuatorfrc actuator="A_RFJ3" name="Saf_A_RFJ3" />
+        <actuatorfrc actuator="A_RFJ2" name="Saf_A_RFJ2" />
+        <actuatorfrc actuator="A_RFJ1" name="Saf_A_RFJ1" />
+        <actuatorfrc actuator="A_LFJ4" name="Saf_A_LFJ4" />
+        <actuatorfrc actuator="A_LFJ3" name="Saf_A_LFJ3" />
+        <actuatorfrc actuator="A_LFJ2" name="Saf_A_LFJ2" />
+        <actuatorfrc actuator="A_LFJ1" name="Saf_A_LFJ1" />
+        <actuatorfrc actuator="A_THJ4" name="Saf_A_THJ4" />
+        <actuatorfrc actuator="A_THJ3" name="Saf_A_THJ3" />
+        <actuatorfrc actuator="A_THJ2" name="Saf_A_THJ2" />
+        <actuatorfrc actuator="A_THJ1" name="Saf_A_THJ1" />
+        <actuatorfrc actuator="A_THJ0" name="Saf_A_THJ0" />
+
+        <touch name="ST_Tch_fftip"  site="Tch_fftip"/>
+        <touch name="ST_Tch_mftip"  site="Tch_mftip"/>
+        <touch name="ST_Tch_rftip"  site="Tch_rftip"/>
+        <touch name="ST_Tch_lftip"  site="Tch_lftip"/>
+        <touch name="ST_Tch_thtip"  site="Tch_thtip"/>
+
+        <touch name="ST_Tch_ffmiddle"   site="Tch_ffmiddle"/>
+        <touch name="ST_Tch_mfmiddle"   site="Tch_mfmiddle"/>
+        <touch name="ST_Tch_rfmiddle"   site="Tch_rfmiddle"/>
+        <touch name="ST_Tch_lfmiddle"   site="Tch_lfmiddle"/>
+        <touch name="ST_Tch_thmiddle"   site="Tch_thmiddle"/>
+
+        <touch name="ST_Tch_ffproximal" site="Tch_ffproximal"/>
+        <touch name="ST_Tch_mfproximal" site="Tch_mfproximal"/>
+        <touch name="ST_Tch_rfproximal" site="Tch_rfproximal"/>
+        <touch name="ST_Tch_lfproximal" site="Tch_lfproximal"/>
+        <touch name="ST_Tch_thproximal" site="Tch_thproximal"/>
+
+        <touch name="ST_Tch_ffmetacarpal"   site="Tch_ffmetacarpal"/>
+        <touch name="ST_Tch_mfmetacarpal"   site="Tch_mfmetacarpal"/>
+        <touch name="ST_Tch_rfmetacarpal"   site="Tch_rfmetacarpal"/>
+        <touch name="ST_Tch_lfmetacarpal"   site="Tch_lfmetacarpal"/>
+        <touch name="ST_Tch_thmetacarpal"   site="Tch_thmetacarpal"/>
+
+        <touch name="ST_Tch_palm"   site="Tch_palm"/>
+
+        <jointpos joint="WRJ1" name="Sjp_WRJ1" />
+        <jointpos joint="WRJ0" name="Sjp_WRJ0" />
+        <jointpos joint="FFJ3" name="Sjp_FFJ3" />
+        <jointpos joint="FFJ2" name="Sjp_FFJ2" />
+        <jointpos joint="FFJ1" name="Sjp_FFJ1" />
+        <jointpos joint="FFJ0" name="Sjp_FFJ0" />
+        <jointpos joint="MFJ3" name="Sjp_MFJ3" />
+        <jointpos joint="MFJ2" name="Sjp_MFJ2" />
+        <jointpos joint="MFJ1" name="Sjp_MFJ1" />
+        <jointpos joint="MFJ0" name="Sjp_MFJ0" />
+        <jointpos joint="RFJ3" name="Sjp_RFJ3" />
+        <jointpos joint="RFJ2" name="Sjp_RFJ2" />
+        <jointpos joint="RFJ1" name="Sjp_RFJ1" />
+        <jointpos joint="RFJ0" name="Sjp_RFJ0" />
+        <jointpos joint="LFJ4" name="Sjp_LFJ4" />
+        <jointpos joint="LFJ3" name="Sjp_LFJ3" />
+        <jointpos joint="LFJ2" name="Sjp_LFJ2" />
+        <jointpos joint="LFJ1" name="Sjp_LFJ1" />
+        <jointpos joint="LFJ0" name="Sjp_LFJ0" />
+        <jointpos joint="THJ4" name="Sjp_THJ4" />
+        <jointpos joint="THJ3" name="Sjp_THJ3" />
+        <jointpos joint="THJ2" name="Sjp_THJ2" />
+        <jointpos joint="THJ1" name="Sjp_THJ1" />
+        <jointpos joint="THJ0" name="Sjp_THJ0" /> -->
+
+
+
+    </sensor>
+
+</mujoco>
