@@ -17,8 +17,8 @@ model_path = '../shadow-hand-assets/hand/manipulate_block_gain.xml'
 env_model = load_model_from_path(model_path)
 env = MjSim(env_model)
 
-# viewer = MjViewer(env)
-# viewer._render_every_frame = True
+viewer = MjViewer(env)
+viewer._render_every_frame = True
 
 ## data idx that are necessary in this example
 target_obj_bid = env_model.body_name2id('target')
@@ -208,7 +208,7 @@ def main():
 
             for _ in range(frame_skip):
                 env.step()
-            # viewer.render()
+            viewer.render()
 
             if termination_condition(env.data):
                 win_cnt += 1
@@ -252,10 +252,10 @@ def main():
             _sim.model.body_quat[target_obj_bid] = initial_quat
             _sim.forward()
 
-        if cnt % 2 == 0:
-            print('saving at :', cnt)
-            path = './data/percent_success/known_param/'
-            pickle.dump(performance_data, open(path + 'performance_data{}.pkl'.format(trial_num), 'wb'))
+        #if cnt % 2 == 0:
+        #    print('saving at :', cnt)
+        #    path = './data/percent_success/known_param/'
+        #    pickle.dump(performance_data, open(path + 'performance_data{}.pkl'.format(trial_num), 'wb'))
 
         # sample_error.append(error)
         # cnt += 1
